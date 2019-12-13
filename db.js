@@ -26,9 +26,9 @@ const chat = mongoose.model("chats", ChatSchema);
 //   console.log(doc)
 // });
 
-user.find({}, (err, doc) => {
-  console.log(doc)
-})
+// user.find({}, (err, doc) => {
+//   console.log(doc)
+// })
 
 module.exports = {
   mongoose,

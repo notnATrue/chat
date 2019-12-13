@@ -42,6 +42,24 @@ app.post(
   }
 );
 
+app.post('/signin', verify.verifyToken, (req, res) => {
+  auth.checkPwd(req.body).then(
+    (ifVerivied) => {
+      console.log(ifVerivied)
+      if (typeof ifVerivied === "object") {
+        jwt.sign({ user: req.body }, "secretkey", (err, token) => {
+          res.json({
+            token
+          });
+        });
+      } else {
+        res.json({
+          message: "user not exists or password is wrong"
+        })
+      }
+    });
+});
+
 app.post("/message", verify.verifyToken, (req, res) => {
   jwt.verify(req.token, "secretkey", (err, authData) => {
     if (err) {
@@ -58,11 +76,5 @@ app.post("/message", verify.verifyToken, (req, res) => {
 app.get("/", (req, res) => {
   res.send("welcome to api");
 });
-
-// const session = require("./controllers/session");
-
-// const auth = require("./controllers/authentication");
-
-// const favorites = require("./methods/history.favorites");
 
 app.listen(port);

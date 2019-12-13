@@ -13,12 +13,27 @@ function checkUserExistanse(currentUser) {
   return new Promise(resolve => {
     db.user.find({ username: currentUser.username }, (err, data) => {
       console.log(data);
-      resolve(data);
+      resolve(data); 
     });
   });
-}
+};
+
+function checkPwd(user) {
+    // console.log(user)
+    return new Promise((resolve) => {
+      db.user.findOne({username: user.username}, (err, data) => {
+        if (err) throw err;
+        if (data && user.password === data.password) {
+          resolve(data)
+        } else {
+          resolve("some error")
+        }
+      })
+    })
+  }
 
 module.exports = {
   createNewUser,
-  checkUserExistanse
+  checkUserExistanse,
+  checkPwd
 };
